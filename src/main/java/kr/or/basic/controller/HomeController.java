@@ -1,4 +1,4 @@
-package kr.or.basic;
+package kr.or.basic.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
