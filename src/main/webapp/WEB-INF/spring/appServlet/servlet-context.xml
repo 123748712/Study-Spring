@@ -21,6 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- JungSun jungsun = new JungSun(); -->
+	<beans:bean id="jungsun" class="kr.or.basic.domain.JungSun" /> <!-- 한줄에 끝내고자 한다면 끝에 / 기입 -->
 	<context:component-scan base-package="kr.or.basic" />
 	
 	
