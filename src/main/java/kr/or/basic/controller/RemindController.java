@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller // 컨트롤러 등록 어노테이션
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class RemindController {
 	// get방식 요청에 입력화면을 보여주고 post방식이 요청에 처리를 해주는 식으로 많이 진행
 	
-	@RequestMapping("test") // url만 기입한다면 value="" 생략 가능
+	@RequestMapping("/test") // url만 기입한다면 value="" 생략 가능
 	public String getTest(Model model) { // servlet에서 jsp로 데이터를 전송하고 싶다면 파라미터로 Model 기입
 //		List<String> tests = new ArrayList<>();
 //		tests.add("testA");
@@ -31,12 +32,12 @@ public class RemindController {
 		// 입력화면을 보여주는 페이지
 	}
 	
-//	@GetMapping("test")
+//	@GetMapping("/test")
 //	public void getTest(Model model) {
 //		// return 타입이 void인 경우 요청 url 그대로 jsp를 찾는다.
 //	}
 	
-	@PostMapping("test") // url만 기입한다면 value="" 생략 가능 // @RequestParam => 변수명과 input name이 달라도 받아올 수 있는 어노테이션
+	@PostMapping("/test") // url만 기입한다면 value="" 생략 가능 // @RequestParam => 변수명과 input name이 달라도 받아올 수 있는 어노테이션
 	public String postTest(Model model, String nm_testA,   // required = boolean 값을 꼭 가져와야하는지, 가져오지 않아도 되는지 구분 / defaultValue => 값이 넘어오지 않았을때 가지는 기본 값 
 							@RequestParam(value = "nm_testB", required = false, defaultValue = "default") String testB) { // servlet에서 jsp로 데이터를 전송하고 싶다면 파라미터로 Model 기입 
 																	  		  // 파라미터 변수명이 form의 input name과 같으면 자동으로 받아와짐 value 생략 가능
@@ -58,6 +59,37 @@ public class RemindController {
 		return "remind"; // /WEB-INF/views/remind.jsp
 		// servlet-context에서 view를 결정할 내부 소스를 제공해주어 /WEB-INF/views/.jsp 를 붙여준다.
 	}
-}
+	
+//	@GetMapping("/tst")
+//	@ResponseBody // ajax 전용 어노테이션, .jsp를 찾지 않고 클라이언트(브라우저)로 바로 전송됨
+//	public String ajaxTest(String aaa, String bbb) { // 주소창에 ?aaa=값&bbb=값을 입력해야함
+//		return aaa + " " + bbb; // aaa + " " + bbb.jsp 를 찾지 않음.
+//	}
+	
+	@GetMapping("/tst")
+	public String ajaxForm() {
+		return "tstForm";
+	}
+	
+	@PostMapping("/tst")
+	@ResponseBody 
+	public String ajaxTest(String nm_first, String nm_second, String nm_sel) {
+		System.out.println("ck1 : " + nm_first);
+		System.out.println("ck2 : " + nm_second);
+		System.out.println("calc : " + nm_sel);
+		int result = 0;
+		if(nm_sel.equals("p")) {
+			result = Integer.parseInt(nm_first) + Integer.parseInt(nm_second);
+		} else if(nm_sel.equals("m")) {
+			result = Integer.parseInt(nm_first) - Integer.parseInt(nm_second);
+		} else if(nm_sel.equals("t")) {
+			result = Integer.parseInt(nm_first) * Integer.parseInt(nm_second);
+		} else if(nm_sel.equals("d")) {
+			result = Integer.parseInt(nm_first) / Integer.parseInt(nm_second);
+		}
+		System.out.println(result);
+		return Integer.toString(result);
+		} 
+	}
 // .jsp만 변경한다면 서버를 다시 restart 하지 않아도 된다.
 // but, .java를 변경한다면 서버를 다시 restart 해야한다.
