@@ -3,6 +3,8 @@
 <html>
 <head>
 	<title>Home</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/mystyle.css">
+<!-- css 파일과 연결 -->
 </head>
 <body>
 <h1>
